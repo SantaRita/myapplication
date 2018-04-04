@@ -10,6 +10,11 @@ public class CuadroDash extends CustomComponent   {
 
 	public HorizontalLayout layout = new HorizontalLayout(); 
 	
+	public int idQuery;
+	public String Description;
+	public String tablesUpdate;
+	public String columnsUpdate;
+	public String whereUpdate;
 	public CuadroDash ( String caption, String fondo) {
 		
 		layout.setSpacing(true);

@@ -138,7 +138,7 @@ public class VenEditarTips extends Window   {
 					}
 					else {
 						cadena= "UPDATE TipS "
-								+ "SET DESCRIPTION = '" + txTip.getValue().toString() + "',"
+								+ "SET DESCRIPTION = '" + txTip.getValue().toString() + "' "
 								+ " WHERE TIPID = " + regTip.getItemProperty("TipId").getValue();
 								 						
 					}

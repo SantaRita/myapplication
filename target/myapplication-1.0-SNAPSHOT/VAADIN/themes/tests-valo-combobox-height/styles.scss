@@ -1,6 +1,39 @@
 @import "variables";
 @import "../tests-valo/valotest";
 
+/* BIG white style */
+.v-button-big:focus {
+}
+
+.v-button-big:focus .v-button-wrap {
+}
+
+.v-button-big:active,
+.v-button-big.v-pressed {
+}
+
+.v-button-big:active .v-button-wrap,
+.v-button-big.v-pressed .v-button-wrap {
+}
+.v-button-big,
+.v-disabled.v-button-big {
+	height: 200px;
+}
+
+.v-button-big .v-button-wrap,
+.v-disabled.v-button-big .v-button-wrap {
+	height: 39px;
+	padding: 1px 14px 0 8px;
+}
+
+.v-button-big .v-button-caption {
+	font-weight: normal;
+}
+
+ .numerico{
+   text-align:right !important;
+ }
+
 .tests-valo-combobox-height {
    @include valotest;
   
@@ -150,10 +183,15 @@
 		}
 
 
-		 
+
+     .fondo-azul {
+ 	background-color:00E0C7;
+ 	border: 1px solid gray;
+    border-radius: 10px;
+ 	}  		 
 
      .fondo-rojo {
- 	background-color:#00E0C7;
+ 	background-color:#FF7057;
  	border: 1px solid gray;
     border-radius: 10px;
  	}  

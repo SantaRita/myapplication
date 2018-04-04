@@ -92,12 +92,12 @@ public class PantallaCustomers extends Panel implements View {
 		// TABLAS
 		layout.setMargin(true);
 		String[] columnsexp ={"IdUser","FirstName","LastName","BirthDate","IdSex","Email","Balance","IdLevel","IdTest","Borrar","Modificar"};
-		Object[] typesexp = {Integer.class, String.class, String.class, Date.class,Integer.class,String.class,String.class,Integer.class,Integer.class,Button.class, Button.class };
+		Object[] typesexp = {Integer.class, String.class, String.class, Date.class,String.class,String.class,String.class,Integer.class,Integer.class,Button.class, Button.class };
 		Object[] visibleColumnsexp = 
-				new Object[]{"IdUser","FirstName","LastName","BirthDate","IdSex","Email","Balance","IdLevel","IdTest", "Borrar","Modificar"};
+				new Object[]{"IdUser","FirstName","LastName","BirthDate","IdSex","Email","Balance","IdLevel","IdTest"};
 
 		Util.defineTable(tableCustomers, columnsexp, typesexp, visibleColumnsexp,true);
-		tableCustomers.setColumnHeaders(new String[] {"Id","FirstName","LastName","BirthDate","Sex","Email","Balance","Level","Test","Delete","Update"});
+		tableCustomers.setColumnHeaders(new String[] {"Id","FirstName","LastName","BirthDate","Sex","Email","Balance","Level","Test"});
 		
 		tableCustomers.setColumnExpandRatio("IdUser", 8);
 		tableCustomers.setColumnExpandRatio("FirstName", 9);
@@ -226,7 +226,7 @@ public class PantallaCustomers extends Panel implements View {
 						row1.getItemProperty("IdUser").setValue(resultSet.getInt("CUSTOMERID"));
 						row1.getItemProperty("FirstName").setValue(resultSet.getString("FIRSTNAME"));
 						row1.getItemProperty("LastName").setValue(resultSet.getString("LASTNAME"));
-						row1.getItemProperty("IdSex").setValue(resultSet.getInt("IDSEX"));
+						row1.getItemProperty("IdSex").setValue(resultSet.getString("GENDER"));
 						row1.getItemProperty("IdLevel").setValue(resultSet.getInt("IDLEVEL"));
 						row1.getItemProperty("Borrar").setValue(btBorrar);
 						row1.getItemProperty("Modificar").setValue(btModificar);

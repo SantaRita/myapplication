@@ -1667,7 +1667,7 @@ div.v-layout.v-horizontal.v-widget {
 	text-align: center;
 	left: 0;
 	right: 0;
-	content: "Loading ... Please wait";
+	content: "Loading InnerMap DashBoard... Please wait";
 }
 
 .tests-valo-combobox-height .v-loading-indicator {
@@ -16925,10 +16925,41 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .tests-valo-combobox-height .fondo-rojo {
+	margin-top:10px;
+	background-color: #FF7057;
+	border: 1px solid gray;
+	border-radius: 10px;
+	opacity:0.9;
+}
+
+.tests-valo-combobox-height:hover .fondo-rojo:hover {
+	margin-top:10px;
+	background-color: #FF7050;
+	border: 3px solid gray;
+	border-radius: 10px;
+	text-color:white;
+	opacity:1;
+	
+}
+
+.tests-valo-combobox-height .fondo-azul {
+	margin-top:10px;
 	background-color: #00E0C7;
 	border: 1px solid gray;
 	border-radius: 10px;
+	text-color:white;
+	opacity:0.9;
 }
+
+.tests-valo-combobox-height:hover .fondo-azul:hover {
+	margin-top:10px;
+	background-color: #00E0C0;
+	border: 3px solid gray;
+	opacity: 1;
+	border-radius: 10px;
+}
+
+
 
 .tests-valo-combobox-height .v-label-wrap {
 	white-space: normal;

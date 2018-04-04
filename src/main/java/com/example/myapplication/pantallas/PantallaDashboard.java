@@ -1,8 +1,12 @@
 package com.example.myapplication.pantallas;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import com.example.myapplication.jdbc.Conexion;
 import com.example.myapplication.ventanas.VenDashQuery;
-import com.example.myapplication.ventanas.VenEditarObjects;
 import com.meditacionback.utiles.CuadroDash;
 /*import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.model.ChartType;
@@ -13,28 +17,28 @@ import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window.CloseEvent;
+import com.vaadin.ui.Window.CloseListener;
 
 public class PantallaDashboard extends Panel implements View {
 	
 	VenDashQuery venDashQuery = new VenDashQuery();
+	
 
 	private static Conexion conexion;
 	VerticalLayout layout = new VerticalLayout();
-	GridLayout gridDash = new GridLayout(6,10);
+	GridLayout gridDash = new GridLayout(6,1);
 	Button btPrueba = new Button();
 	
 	public PantallaDashboard() {
 		// TODO Auto-generated constructor stub
 		
-		this.setCaption("Dashboard");
+		this.setCaption("Dashboard MVP 0.1");
 		
 
 		/*Chart chartUsersMonth = new Chart(ChartType.LINE);
@@ -112,6 +116,7 @@ public class PantallaDashboard extends Panel implements View {
 		
 		
 		*/
+		
 		gridDash.setMargin(true);
 		gridDash.setSpacing(true);
 		gridDash.setWidth("100%");
@@ -133,6 +138,33 @@ public class PantallaDashboard extends Panel implements View {
 		cuadro.setMargin(true);
 		cuadro.setComponentAlignment(etiqueta, Alignment.MIDDLE_CENTER);*/
 
+		
+		// AÑADIMOS LAS QUERYS
+		
+		actualizarGrid();	
+		
+		
+		
+		layout.addComponent(gridDash);
+		setContent(layout);
+		gridDash.setRows(gridDash.getRows()+1);
+		
+		
+		venDashQuery.addCloseListener(new CloseListener() {
+			
+			@Override
+			public void windowClose(CloseEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Cerramos la ventana del dashboard");
+				gridDash.removeAllComponents();
+				actualizarGrid();
+			}
+		});
+	
+		
+	}
+
+	public void actualizarGrid() {
 		CuadroDash cuadroNuevo = new CuadroDash("New Group","fondo-rojo");
 		cuadroNuevo.layout.addLayoutClickListener(new LayoutClickListener() {
 			
@@ -151,26 +183,91 @@ public class PantallaDashboard extends Panel implements View {
 			@Override
 			public void layoutClick(LayoutClickEvent event) {
 				// TODO Auto-generated method stub
+				venDashQuery.idRegistro = -1;
+				venDashQuery.txQueryName.setValue(null);
+				venDashQuery.tablesUpdate = null;
+				venDashQuery.columnsUpdate = null;
+				venDashQuery.whereUpdate = null;
 				System.out.println("Pulsamos el cuadro New Query");
+				venDashQuery.estadoRegistro = "NEW";
+				venDashQuery.init();
 				UI.getCurrent().addWindow(venDashQuery);
 
 			}
 		});
-		gridDash.addComponent(cuadroGrupo,1,0,1,1);		
+		gridDash.addComponent(cuadroGrupo,1,0,1,0);
 		
-		layout.addComponent(gridDash);
-		setContent(layout);
-		gridDash.setRows(gridDash.getRows()+1);
-	
+		// AÑADIMOS LAS QUERYS
+		
+		int fila = 0;
+		int columna = 2;
+		
+		conexion = new Conexion();
+		Connection con = conexion.getConnection();
+        try (Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * from dashQUERIES ")) {
+            while (resultSet.next())
+                {
+            	
+            	
+            	columna ++;
+            	System.out.println("Columna" + columna);
+            	if ( columna==6) {
+            		gridDash.setRows(gridDash.getRows()+1);
+            		columna = 0;
+            		fila++;
+            	}
+            	
+        		CuadroDash cuadroGrupoDinamico = new CuadroDash(resultSet.getString("DESCRIPTION"),"fondo-azul");
+        		cuadroGrupoDinamico.Description = resultSet.getString("DESCRIPTION");
+        		cuadroGrupoDinamico.idQuery = resultSet.getInt("IdQuery");
+        		cuadroGrupoDinamico.tablesUpdate = resultSet.getString("tables");
+        		cuadroGrupoDinamico.columnsUpdate = resultSet.getString("columns");
+        		cuadroGrupoDinamico.whereUpdate = resultSet.getString("conditions");
+        		cuadroGrupoDinamico.layout.addLayoutClickListener(new LayoutClickListener() {
+        			
+        			@Override
+        			public void layoutClick(LayoutClickEvent event) {
+        				// TODO Auto-generated method stub
+
+        				venDashQuery.estadoRegistro = "UPDATE";
+        				venDashQuery.idRegistro = cuadroGrupoDinamico.idQuery;
+        				venDashQuery.txQueryName.setValue(cuadroGrupoDinamico.Description);
+        				venDashQuery.tablesUpdate = cuadroGrupoDinamico.tablesUpdate;
+        				venDashQuery.columnsUpdate = cuadroGrupoDinamico.columnsUpdate;
+        				venDashQuery.whereUpdate = cuadroGrupoDinamico.whereUpdate;
+
+        				System.out.println("La descripcion es:" + cuadroGrupoDinamico.Description);
+        				venDashQuery.init();
+        				UI.getCurrent().addWindow(venDashQuery);
+
+        			}
+        		});
+        		gridDash.addComponent(cuadroGrupoDinamico,columna,fila,columna,fila);
+        		
+	            	//cbTablesFrom.addItem(new BigDecimal(resultSet.getInt("IDTABLE")));
+					//cbTablesFrom.setItemCaption(new BigDecimal(resultSet.getInt("IDTABLE")),resultSet.getString("TABLENAME") + " - " + resultSet.getString("DESCTABLE"));
+
+                }
+	        con.close();
+	        statement.close();
+	        gridDash.setRows(gridDash.getRows()+1);
+	     
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		
+		
 	}
-
-
 
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("ENtramos");
 	}
+	
+	
 
 	
 	

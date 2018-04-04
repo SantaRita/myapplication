@@ -65,7 +65,7 @@ import com.vaadin.ui.themes.ValoTheme;
  * overridden to add component to the user interface and initialize non-component functionality.
  */
 @Theme("tests-valo-combobox-height")
-@Title("Meditation" )
+@Title("InnerMap Dashboard MVP 0.1" )
 public class MyUI extends UI {
 	
 	
@@ -77,7 +77,7 @@ public class MyUI extends UI {
 	private CustomPrincipal principal = new CustomPrincipal();
 
 
-	Label lblProveedores = new Label("Meditation");
+	Label lblProveedores = new Label("InnerMap");
 	private Button login = new Button("Connect");
 	
 	private TextField usuarioField;
@@ -146,7 +146,7 @@ public class MyUI extends UI {
 		layout.addComponent(passwordField);
 		
 		usuarioField.setValue("jadosgames@gmail.com");
-		passwordField.setValue("Azure1974.");
+		passwordField.setValue("Jadosgames1974..");
 		
 		login.setId("login");
 		login.setClickShortcut(KeyCode.ENTER);
@@ -210,7 +210,11 @@ public class MyUI extends UI {
 		passwordField.setTabIndex(2);
 		login.setTabIndex(3);
 	
-		
+		usuarioField.setValue("jadosgames@gmail.com");
+		passwordField.setValue("Jadosgames1974.");
+		System.out.println("Hacemos el click del login");
+		//doLogin();
+		//
 		setErrorHandler(new ErrorHandler() {
 			
 			@Override
